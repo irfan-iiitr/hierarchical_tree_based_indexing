@@ -1,2 +1,5 @@
 pandas
 ipykernel
+groq
+llama-index-llms-groq
+llama-index
