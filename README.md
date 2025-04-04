@@ -104,7 +104,8 @@ Feel free to check the [issues page](https://github.com/yourusername/hierarchica
 
 - Mohit Verma — [@mohit-verma](https://github.com/mohit-verma)
 - Arion Das — [@ArionDas](https://github.com/ArionDas)
-- Irfan Ahmad — [@irfan-iiitr](https://github.com/irfan-iiitr)
+- Irfan Ansari — [@irfan-iiitr](https://github.com/irfan-iiitr)
+- Keshav Agarwal — [@keshav-github02](https://github.com/keshav-github02)
 
 ---
 
