@@ -13,7 +13,7 @@ const Homepage = () => {
     setError(null);
     
     try {
-      const response = await fetch('http://localhost:5000/classify', {
+      const response = await fetch(`${process.env.API_URL}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
