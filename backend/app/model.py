@@ -4,4 +4,5 @@ class CaseInput(BaseModel):
     case: str
 
 class ClassificationOutput(BaseModel):
-    classification: str
+    stage_1_class: str
+    stage_2_class: str
