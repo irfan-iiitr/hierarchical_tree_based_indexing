@@ -1,8 +1,8 @@
 import os
 import torch
 
-from langchain_huggingface import HuggingFaceEmbeddings
-from config import CONFIG
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from app.config import CONFIG
 
 
 def get_embedding_model():

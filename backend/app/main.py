@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.model import CaseInput, ClassificationOutput
+from app.model import CaseInput, ClassificationOutput,CrimeResult,CaseQuery
 from app.classify import classify_stage_1, classify_stage_2
+from app.agentic_backend import search_crimes_service
+
 
 app = FastAPI()
 
@@ -22,3 +24,22 @@ def classify_case(case_input: CaseInput):
         "stage_1_class": stage_1_class,
         "stage_2_class": stage_2_class
     }
+
+@app.post("/search_crimes", response_model=list[CrimeResult])
+async def search_crimes(query: CaseQuery):
+    results = search_crimes_service(query.query)
+    
+    # Format results
+    formatted_results = [
+        CrimeResult(
+            crime_text=result.page_content,
+            penalty=result.metadata['Punishment'],
+            section=result.metadata['Section'],
+            cognizable=result.metadata['Cognizable'],
+            bailable=result.metadata['Bailable'],
+            court=result.metadata['Court']
+        )
+        for result in results
+    ]
+    
+    return formatted_results

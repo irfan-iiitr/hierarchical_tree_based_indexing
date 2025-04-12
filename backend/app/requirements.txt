@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-pandas
-groq
-llama-index
-llama-index-llms-groq
-python-dotenv
