@@ -1,8 +1,8 @@
 import os
 
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import Chroma
 
-from config import CONFIG
+from app.config import CONFIG
 
 
 def get_vector_store(documents, embedding_model):
