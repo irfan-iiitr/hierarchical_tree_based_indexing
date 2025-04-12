@@ -93,10 +93,10 @@ pytest
 ---
 
 
-## 🙌 Contributing
+## 🙌 Google Docs
+[Link](https://docs.google.com/document/d/14WWNWL-4Cv1cbPc2pIfTgC3pqlDdH8TJ9xCCbnHTwUQ/edit?usp=sharing)
 
-Contributions, issues, and feature requests are welcome!  
-Feel free to check the [issues page](https://github.com/yourusername/hierarchical_tree_based_indexing/issues) if you'd like to help.
+
 
 ---
 
