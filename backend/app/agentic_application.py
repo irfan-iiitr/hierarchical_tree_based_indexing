@@ -32,6 +32,16 @@ def main(user_query):
     ## Query the vector store
     results = vector_store.similarity_search(user_query, k=CONFIG["k"])
     
+    # Extract unique results based on page_content
+    unique_results = []
+    seen_contents = set()
+    for result in results:
+        if result.page_content not in seen_contents:
+            unique_results.append(result)
+            seen_contents.add(result.page_content)
+    
+    results = unique_results
+    
     print(f"Top {CONFIG['k']} results for query '{user_query}':")
     for i, result in enumerate(results):
         print(f"Result {i+1}:")
@@ -42,6 +52,8 @@ def main(user_query):
         print(f"Bailable: {result.metadata['Bailable']}")
         print(f"Court: {result.metadata['Court']}")
         print()
+        
+    return results
         
 if __name__ == "__main__":
     user_query = input("Enter your crime: ")
