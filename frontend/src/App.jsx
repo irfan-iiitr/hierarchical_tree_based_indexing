@@ -3,9 +3,9 @@ import HomePage from './components/HomePage'
 
 function App() {
   return (
-    <>
-     <HomePage />
-    </>
+    <div className="bg-gray-300 min-h-screen">
+      <HomePage />
+    </div>
   )
 }
 
