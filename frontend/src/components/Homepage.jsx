@@ -3,6 +3,7 @@ import Tree from './Tree';
 import Stage1 from './Stage1';
 import Stage2 from './Stage2';
 import { BookOpen, AlertCircle, Check } from 'lucide-react';
+import Cases from './Cases';
 
 const Homepage = () => {
   const [prompt, setPrompt] = useState('');
@@ -10,6 +11,8 @@ const Homepage = () => {
   const [classification, setClassification] = useState(null);
   const [error, setError] = useState(null);
   const [showDemo, setShowDemo] = useState(false);
+  const [foundCases, setFoundCases] = useState([]); // Add this new state
+
   
   // Stage classification states
   const [selectedStage1, setSelectedStage1] = useState(null);
@@ -70,12 +73,36 @@ const Homepage = () => {
       // Find and set the index of the stage 1 class
       const stage1Index = stage1Classes.findIndex(cls => cls === stage1ClassResult);
       setSelectedStage1Index(stage1Index !== -1 ? stage1Index : null);
+
+      await fetchCases(prompt);
       
       setShowDemo(false);
     } catch (err) {
       setError('Failed to get classification. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCases = async (query) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/search_crimes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch cases');
+      }
+
+      const data = await response.json();
+      setFoundCases(data);
+    } catch (error) {
+      console.error('Error fetching cases:', error);
+      throw new Error('Failed to fetch cases');
     }
   };
 
@@ -238,7 +265,17 @@ const Homepage = () => {
               </div>
             )}
           </div>
+
+          {prompt && (
+      <div className="mt-6">
+        <Cases cases={foundCases} loading={loading} error={error} />
+      </div>
+    )}
+
+
         </div>
+
+
 
         <div className="mt-6 bg-white shadow rounded-lg p-5">
           <h3 className="text-base font-medium text-gray-900">About This System</h3>
@@ -249,6 +286,8 @@ const Homepage = () => {
           </p>
         </div>
       </main>
+
+
 
       <footer className="bg-black text-white py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
