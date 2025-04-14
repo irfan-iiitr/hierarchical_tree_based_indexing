@@ -43,3 +43,7 @@ async def search_crimes(query: CaseQuery):
     ]
     
     return formatted_results
+
+@app.get("/")
+def health_check():
+    return {"status": "healthy"}
