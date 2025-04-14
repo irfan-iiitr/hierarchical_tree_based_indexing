@@ -3,3 +3,8 @@ ipykernel
 groq
 llama-index-llms-groq
 llama-index
+langchain
+langchain-community
+langchain_chroma
+langchain-huggingface
+langchain-core

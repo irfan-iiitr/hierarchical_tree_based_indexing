@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from config import config
 from groq import Groq
 import pandas as pd
@@ -9,8 +10,9 @@ from model import get_llm, llm_inference
 from stage_1_classification import stage_1_classification
 from stage_2_classification import stage_2_classification
 
+load_dotenv()
 Settings.llm = get_llm(config["model_name"])
-os.environ["OPENAI_API_KEY"] = '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'
+os.environ["OPENAI_API_KEY"] = config["GROQ_API_KEY"]
 
 ## stage 1 classes
 stage_1_classes = [
