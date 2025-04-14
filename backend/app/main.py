@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.model import CaseInput, ClassificationOutput,CrimeResult,CaseQuery
-from app.classify import classify_stage_1, classify_stage_2
-from app.agentic_backend import search_crimes_service
+from model import CaseInput, ClassificationOutput,CrimeResult,CaseQuery
+from classify import classify_stage_1, classify_stage_2
+from agentic_backend import search_crimes_service
 
 
 app = FastAPI()

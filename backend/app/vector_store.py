@@ -2,7 +2,7 @@ import os
 
 from langchain_community.vectorstores import Chroma
 
-from app.config import CONFIG
+from config import CONFIG
 
 
 def get_vector_store(documents, embedding_model):

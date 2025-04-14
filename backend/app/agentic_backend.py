@@ -2,10 +2,10 @@ import os
 from fastapi import HTTPException
 from dotenv import load_dotenv
 
-from app.config import CONFIG
-from app.prepare_langchain_docs import prepare_langchain_documents
-from app.embedding_model import get_embedding_model
-from app.vector_store import get_vector_store
+from config import CONFIG
+from prepare_langchain_docs import prepare_langchain_documents
+from embedding_model import get_embedding_model
+from vector_store import get_vector_store
 
 def search_crimes_service(query: str):
     """
