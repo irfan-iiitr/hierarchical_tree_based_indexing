@@ -1,4 +1,4 @@
-from app.groq_client import llm
+from groq_client import llm
 
 stage_1_classes = [
     'Military and State Offenses', 'Public Order and Rioting', 'Corruption and Bribery',
