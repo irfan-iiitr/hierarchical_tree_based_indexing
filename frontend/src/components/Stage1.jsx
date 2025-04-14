@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Stage1 = ({ stage1Classes, activeClass, onSelectClass }) => {
-  // Display a subset of classes if there are too many
-  const displayClasses = stage1Classes; // Show first 6 classes
+  const [showAll, setShowAll] = useState(false);
+  
+  // Display either all classes or just the first 6 based on showAll state
+  const displayClasses = showAll ? stage1Classes : stage1Classes.slice(0, 6);
   
   return (
     <div className="mb-4">
@@ -21,8 +23,11 @@ const Stage1 = ({ stage1Classes, activeClass, onSelectClass }) => {
             {classItem}
           </button>
         ))}
-        {stage1Classes.length > 6 && (
-          <button className="px-3 py-1.5 text-sm font-medium rounded-full bg-gray-500 text-white">
+        {!showAll && stage1Classes.length > 6 && (
+          <button 
+            onClick={() => setShowAll(true)}
+            className="px-3 py-1.5 text-sm font-medium rounded-full bg-gray-500 text-white hover:bg-gray-400"
+          >
             +{stage1Classes.length - 6} more
           </button>
         )}

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, ArrowDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Tree = ({ classification }) => {
   const [expanded, setExpanded] = useState(false);
+  const navigate = useNavigate();
 
   const { stage_1_class, stage_2_class } = classification;
 
@@ -190,6 +192,10 @@ const Tree = ({ classification }) => {
             <div className="text-xs text-gray-700 mt-1">
               <strong>Confidence Score:</strong> {classification?.confidence_score ? `${(classification.confidence_score * 100).toFixed(1)}%` : 'N/A'}
             </div>
+
+
+          
+
           </motion.div>
         </motion.div>
       </div>
@@ -218,7 +224,7 @@ const Tree = ({ classification }) => {
             {/* Connector */}
             <div className="flex justify-center">
               <div className="flex flex-col items-center">
-                <ArrowRight className="text-gray-400" size={24} />
+                <ArrowDown className="text-gray-400" size={24} />
                 <div className="text-xs text-gray-500 mt-1">Hierarchical Relationship</div>
               </div>
             </div>

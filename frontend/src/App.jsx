@@ -1,12 +1,17 @@
-import './App.css'
-import HomePage from './components/HomePage'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Homepage from './components/HomePage';
+import CasesPage from './components/CasesPage';
 
-function App() {
+const App = () => {
   return (
-    <div className="bg-gray-300 min-h-screen">
-      <HomePage />
-    </div>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/cases" element={<CasesPage />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
