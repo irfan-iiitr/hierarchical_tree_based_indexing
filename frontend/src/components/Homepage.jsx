@@ -3,6 +3,8 @@ import Tree from './Tree';
 import Stage1 from './Stage1';
 import Stage2 from './Stage2';
 import { BookOpen, AlertCircle, Check } from 'lucide-react';
+import Cases from './Cases';
+import { useNavigate } from 'react-router-dom';
 
 const Homepage = () => {
   const [prompt, setPrompt] = useState('');
@@ -10,6 +12,9 @@ const Homepage = () => {
   const [classification, setClassification] = useState(null);
   const [error, setError] = useState(null);
   const [showDemo, setShowDemo] = useState(false);
+  const [foundCases, setFoundCases] = useState([]); // Add this new state
+   
+  const navigate = useNavigate();
   
   // Stage classification states
   const [selectedStage1, setSelectedStage1] = useState(null);
@@ -70,12 +75,36 @@ const Homepage = () => {
       // Find and set the index of the stage 1 class
       const stage1Index = stage1Classes.findIndex(cls => cls === stage1ClassResult);
       setSelectedStage1Index(stage1Index !== -1 ? stage1Index : null);
+
+      await fetchCases(prompt);
       
       setShowDemo(false);
     } catch (err) {
       setError('Failed to get classification. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCases = async (query) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/search_crimes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch cases');
+      }
+
+      const data = await response.json();
+      setFoundCases(data);
+    } catch (error) {
+      console.error('Error fetching cases:', error);
+      throw new Error('Failed to fetch cases');
     }
   };
 
@@ -156,25 +185,7 @@ const Homepage = () => {
               </div>
               
              
-              {/* Classification Buttons */}
-              <div className="bg-black p-4 rounded-lg border border-gray-200 ">
-                <div className="space-y-4">
-                  <Stage1 
-                    stage1Classes={stage1Classes} 
-                    activeClass={selectedStage1} 
-                    onSelectClass={handleStage1Select} 
-                  />
-                  
-                  <div className="border-t border-gray-200 pt-4">
-                    <Stage2 
-                      stage2Classes={stage2Classes} 
-                      activeClass={selectedStage2} 
-                      selectedStage1Index={selectedStage1Index}
-                      onSelectClass={handleStage2Select} 
-                    />
-                  </div>
-                </div>
-              </div>
+             
 
               <div className="flex justify-end">
                 <button
@@ -200,6 +211,26 @@ const Homepage = () => {
                 </button>
               </div>
             </form>
+
+             {/* Classification Buttons */}
+             <div className="bg-black p-4 mt-6 rounded-lg border border-gray-200 ">
+                <div className="space-y-4">
+                  <Stage1 
+                    stage1Classes={stage1Classes} 
+                    activeClass={selectedStage1} 
+                    onSelectClass={handleStage1Select} 
+                  />
+                  
+                  <div className="border-t border-gray-200 pt-4">
+                    <Stage2 
+                      stage2Classes={stage2Classes} 
+                      activeClass={selectedStage2} 
+                      selectedStage1Index={selectedStage1Index}
+                      onSelectClass={handleStage2Select} 
+                    />
+                  </div>
+                </div>
+              </div>
 
 
 
@@ -238,7 +269,40 @@ const Homepage = () => {
               </div>
             )}
           </div>
+
+
+{prompt && (
+  <div className="mt-6">
+    <div className="bg-white shadow rounded-lg p-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h3 className="text-lg font-medium text-gray-900">Found Similar Cases</h3>
+          <p className="text-sm text-gray-500 mt-1">
+            {foundCases.length} related cases found
+          </p>
         </div>
+        <button
+          onClick={() => navigate('/cases', { 
+            state: { 
+              cases: foundCases,
+              searchQuery: prompt,
+              loading: loading,
+              error: error 
+            } 
+          })}
+          className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+        >
+          <span>View All Cases</span>
+         
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+        </div>
+
+
 
         <div className="mt-6 bg-white shadow rounded-lg p-5">
           <h3 className="text-base font-medium text-gray-900">About This System</h3>
@@ -249,6 +313,8 @@ const Homepage = () => {
           </p>
         </div>
       </main>
+
+
 
       <footer className="bg-black text-white py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
