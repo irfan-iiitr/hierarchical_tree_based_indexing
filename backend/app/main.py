@@ -34,7 +34,7 @@ def classify_case(case_input: CaseInput):
 
 
 @app.post("/search_crimes", response_model=list[CrimeResult])
-async def search_crimes(query: CaseQuery):
+def search_crimes(query: CaseQuery):
     print("📥 Received search query:", query.query)
 
     try:
@@ -55,11 +55,10 @@ async def search_crimes(query: CaseQuery):
 
         return formatted_results
 
-    except Exception as e:
+    except Exception:
         print("❌ Error during /search_crimes request:")
         traceback.print_exc()
-        return []  # Optional: you can return an empty list or None
-
+        return []
 @app.get("/")
 def read_root():
     return {"message": "Hello from FastAPI!"}
