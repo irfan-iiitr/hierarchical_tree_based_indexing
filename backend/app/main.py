@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import traceback
 
 try:
     from model import CaseInput, ClassificationOutput, CrimeResult, CaseQuery
@@ -31,23 +32,33 @@ def classify_case(case_input: CaseInput):
         "stage_2_class": stage_2_class
     }
 
+
 @app.post("/search_crimes", response_model=list[CrimeResult])
 async def search_crimes(query: CaseQuery):
-    results = search_crimes_service(query.query)
+    print("📥 Received search query:", query.query)
 
-    formatted_results = [
-        CrimeResult(
-            crime_text=result.page_content,
-            penalty=result.metadata['Punishment'],
-            section=result.metadata['Section'],
-            cognizable=result.metadata['Cognizable'],
-            bailable=result.metadata['Bailable'],
-            court=result.metadata['Court']
-        )
-        for result in results
-    ]
+    try:
+        results = search_crimes_service(query.query)
+        print(f"✅ Search completed. {len(results)} results found.")
 
-    return formatted_results
+        formatted_results = [
+            CrimeResult(
+                crime_text=result.page_content,
+                penalty=result.metadata.get('Punishment', 'N/A'),
+                section=result.metadata.get('Section', 'N/A'),
+                cognizable=result.metadata.get('Cognizable', 'N/A'),
+                bailable=result.metadata.get('Bailable', 'N/A'),
+                court=result.metadata.get('Court', 'N/A')
+            )
+            for result in results
+        ]
+
+        return formatted_results
+
+    except Exception as e:
+        print("❌ Error during /search_crimes request:")
+        traceback.print_exc()
+        return []  # Optional: you can return an empty list or None
 
 @app.get("/")
 def read_root():
