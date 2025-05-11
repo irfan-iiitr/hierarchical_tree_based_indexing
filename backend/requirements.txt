@@ -151,4 +151,4 @@ huggingface-hub[hf_xet]
 langchain-huggingface
 pinecone-client>=2.2.4
 langchain-pinecone>=0.0.3
-pinecone
+pinecone>=3.0.0
